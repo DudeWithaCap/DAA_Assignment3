@@ -28,6 +28,7 @@ class GraphDataset {
 }
 
 public class PrimMST {
+    private static int operationCount = 0;
     public static void main(String[] args) {
         try {
             InputStream inputStream = PrimMST.class.getClassLoader().getResourceAsStream("input.json");
@@ -59,7 +60,14 @@ public class PrimMST {
                 graph.get(e.to).add(new Edge(e.from, e.weight));
             }
 
+            long startTime = System.nanoTime();
             primMST(graph, selectedGraph.nodes);
+            long endTime = System.nanoTime();
+
+            long durationMs = (endTime - startTime) / 1_000_000;
+            System.out.println("\nExecution time: " + durationMs + " ms");
+            System.out.println("Operation count: " + operationCount);
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -73,12 +81,14 @@ public class PrimMST {
         String start = nodes[0];
         visited.add(start);
         pq.addAll(graph.get(start));
+        operationCount += graph.get(start).size();
 
         int totalWeight = 0;
         List<String> mstEdges = new ArrayList<>();
 
         while (!pq.isEmpty() && visited.size() < nodes.length) {
             Edge edge = pq.poll();
+            operationCount++; // count extraction
             if (visited.contains(edge.to)) continue;
 
             // Find the vertex that connects to this edge
@@ -88,6 +98,7 @@ public class PrimMST {
 
             visited.add(edge.to);
             for (Edge next : graph.get(edge.to)) {
+                operationCount++; // count comparison/insertion
                 if (!visited.contains(next.to)) pq.add(next);
             }
         }
@@ -101,6 +112,7 @@ public class PrimMST {
     static String findConnectingVertex(Map<String, List<Edge>> graph, Set<String> visited, String target, int weight) {
         for (String v : visited) {
             for (Edge e : graph.get(v)) {
+                operationCount++; // edge check
                 if (e.to.equals(target) && e.weight == weight) {
                     return v;
                 }
