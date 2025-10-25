@@ -47,7 +47,7 @@ public class PrimMST {
             }
 
             if (selectedGraph == null) {
-                System.out.println("Graph with id " + targetId + " not found!");
+                System.out.println("Graph with id " + targetId + " not found"); // problem-proofing
                 return;
             }
 
@@ -66,7 +66,7 @@ public class PrimMST {
 
             long durationMs = (endTime - startTime) / 1_000_000;
             System.out.println("\nExecution time: " + durationMs + " ms");
-            System.out.println("Operation count: " + operationCount);
+            System.out.println("Operation count: " + operationCount); // count execution time in MS
 
 
         } catch (Exception e) {
