@@ -27,8 +27,27 @@ class GraphDataset {
     Graph[] graphs;
 }
 
+class MSTResult {
+    int graphId;
+    List<String> edges;
+    int totalWeight;
+    long executionTimeMs;
+    long operationCount;
+
+    MSTResult(int graphId, List<String> edges, int totalWeight, long executionTimeMs, long operationCount) {
+        this.graphId = graphId;
+        this.edges = edges;
+        this.totalWeight = totalWeight;
+        this.executionTimeMs = executionTimeMs;
+        this.operationCount = operationCount;
+    }
+}
+
 public class PrimMST {
     private static int operationCount = 0;
+    private static List<String> mstEdgesGlobal = new ArrayList<>();
+    private static int totalWeightGlobal = 0;
+
     public static void main(String[] args) {
         try {
             InputStream inputStream = PrimMST.class.getClassLoader().getResourceAsStream("input.json");
@@ -37,7 +56,7 @@ public class PrimMST {
             Gson gson = new Gson();
             GraphDataset dataset = gson.fromJson(reader, GraphDataset.class);
 
-            int targetId = 4; //hardcoded choosing of which dataset you will use
+            int targetId = 1; //hardcoded choosing of which dataset you will use
             Graph selectedGraph = null;
             for (Graph g : dataset.graphs) {
                 if (g.id == targetId) {
@@ -67,6 +86,23 @@ public class PrimMST {
             long durationMs = (endTime - startTime) / 1_000_000;
             System.out.println("\nExecution time: " + durationMs + " ms");
             System.out.println("Operation count: " + operationCount); // count execution time in MS
+
+
+            MSTResult result = new MSTResult(
+                    targetId,
+                    mstEdgesGlobal,
+                    totalWeightGlobal,
+                    durationMs,
+                    operationCount
+            );
+
+            // for output.json
+            try (FileWriter writer = new FileWriter("src/main/resources/output.json")) {
+                gson.toJson(result, writer);
+                System.out.println("Saved to resources/output.json");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
 
         } catch (Exception e) {
@@ -106,6 +142,9 @@ public class PrimMST {
         System.out.println("\nMinimum Spanning Tree edges:");
         for (String s : mstEdges) System.out.println("  " + s);
         System.out.println("Total weight of MST: " + totalWeight);
+        mstEdgesGlobal = new ArrayList<>(mstEdges);
+        totalWeightGlobal = totalWeight;
+
     }
 
     // Helper to find which visited node connects to the given target
@@ -120,4 +159,5 @@ public class PrimMST {
         }
         return "";
     }
+
 }
