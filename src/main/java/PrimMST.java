@@ -44,9 +44,23 @@ class MSTResult {
 }
 
 public class PrimMST {
+
     private static int operationCount = 0;
     private static List<String> mstEdgesGlobal = new ArrayList<>();
     private static int totalWeightGlobal = 0;
+
+
+    public static long getOperationCount() {
+        return operationCount;
+    }
+
+    public static List<String> getMstEdgesGlobal() {
+        return new ArrayList<>(mstEdgesGlobal);
+    }
+
+    public static int getTotalWeightGlobal() {
+        return totalWeightGlobal;
+    } //for junit
 
     public static void main(String[] args) {
         try {
@@ -56,7 +70,7 @@ public class PrimMST {
             Gson gson = new Gson();
             GraphDataset dataset = gson.fromJson(reader, GraphDataset.class);
 
-            int targetId = 1; //hardcoded choosing of which dataset you will use
+            int targetId = 5; //hardcoded choosing of which dataset you will use
             Graph selectedGraph = null;
             for (Graph g : dataset.graphs) {
                 if (g.id == targetId) {
@@ -108,6 +122,8 @@ public class PrimMST {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
     }
 
     static void primMST(Map<String, List<Edge>> graph, String[] nodes) {

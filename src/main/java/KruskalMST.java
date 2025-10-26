@@ -48,7 +48,7 @@ public class KruskalMST {
             Gson gson = new Gson();
             GraphDataset dataset = gson.fromJson(reader, GraphDataset.class);
 
-            int targetId = 1;
+            int targetId = 5;
             Graph selectedGraph = null;
             for (Graph g : dataset.graphs) {
                 if (g.id == targetId) {
