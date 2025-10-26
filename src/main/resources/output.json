@@ -1,4 +1,1 @@
-{
-  "graphId":1,
-  "edges":["A - C (weight 3)","C - B (weight 2)","B - D (weight 5)","D - E (weight 6)"],
-  "totalWeight":16,"executionTimeMs":12,"operationCount":42}
+{"graphId":5,"edges":["A - B (weight 4)","B - D (weight 2)","D - O (weight 5)","B - E (weight 6)","B - M (weight 6)","M - I (weight 3)","M - X (weight 3)","M - Q (weight 5)","D - H (weight 7)","H - S (weight 4)","H - L (weight 6)","S - W (weight 6)","X - T (weight 7)","T - P (weight 4)","Q - F (weight 7)","F - J (weight 4)","J - N (weight 2)","N - C (weight 4)","C - G (weight 3)","G - R (weight 3)","R - V (weight 3)","V - Z (weight 2)","N - Y (weight 4)","G - K (weight 5)","Y - U (weight 5)"],"totalWeight":110,"executionTimeMs":8,"operationCount":741}
